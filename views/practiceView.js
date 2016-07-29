@@ -15,23 +15,9 @@ import {
   Image
 } from 'react-native';
 
+
 /* */
 const pics = [require('../resources/pic2.jpg'), require('../resources/pic1.jpg'), require('../resources/pic3.jpg'), require('../resources/pic4.jpg')]
-const subNames = ["语文", "数学", "英语", "物理", "化学", "生物", "历史", "地理", "政治", "更多"];
-/* 这里按照官方推荐 https://facebook.github.io/react-native/docs/images.html， 如果按照拼接字符串的写法会出错 */
-const subIcons = [
-  require('image!HomeSubjectIcon1_70x70_'),
-  require('image!HomeSubjectIcon2_70x70_'),
-  require('image!HomeSubjectIcon3_70x70_'),
-  require('image!HomeSubjectIcon4_70x70_'),
-  require('image!HomeSubjectIcon5_70x70_'),
-  require('image!HomeSubjectIcon6_70x70_'),
-  require('image!HomeSubjectIcon7_70x70_'),
-  require('image!HomeSubjectIcon8_70x70_'),
-  require('image!HomeSubjectIcon9_70x70_'),
-  require('image!HomeSubjectIcon10_70x70_'),
-];
-
 
 
 
@@ -157,8 +143,6 @@ class Practice extends Component {
     return (
       <SubjectionView
         key={idx}
-        subIcon={subIcons[idx]}
-        subName={subNames[idx]}
         tag={idx}
       />
     );
@@ -170,7 +154,8 @@ class Practice extends Component {
       banners[i] = <Image key={i} style={[styles.img, {width: this.state.width}]} source={pics[i]}/>
     }
     var subs = [];
-    for (var i = 0; i < subIcons.length; i++) {
+    console.log("ffff "+ Util.subObj);
+    for (var i = 0; i < Util.subObj.length; i++) {
       subs[i] = this._renderSubjectionIcon(i);
     }
 
