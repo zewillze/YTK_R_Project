@@ -1,0 +1,3 @@
+rootProject.name = 'YTK_R_Project'
+
+include ':app'
