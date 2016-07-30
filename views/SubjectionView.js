@@ -14,6 +14,17 @@ import {
 var SubjectionView = React.createClass({
   _subjectOnpress:function(tag){
     console.log("you click" + tag);
+    var pre = "http://127.0.0.1:5000/";
+
+    fetch('http://127.0.0.1:5000/homeBanners')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson.datas);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
   },
   render(){
     var width = Math.floor(Util.size.width/3);
@@ -28,6 +39,7 @@ var SubjectionView = React.createClass({
            onPress={() => this._subjectOnpress(this.props.tag)}
            >
           <Image source={Util.subObj[this.props.tag].icon} />
+
         </TouchableHighlight>
 
         <Text style={{textAlign:'center', paddingTop: 5}}>

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
 import Util from '../util/util';
-import Helper from '../util/util';
+import Helper from '../util/helper';
 import SubjectionView from './SubjectionView';
 
 import {
@@ -16,10 +16,7 @@ import {
 } from 'react-native';
 
 
-const pics = [require('../resources/pic2.jpg'), require('../resources/pic1.jpg'), require('../resources/pic3.jpg'), require('../resources/pic4.jpg')]
-
-
-
+/* 页面中间部分 （Banner下面）用户名和任务拦*/
 class MidPartView extends Component {
   constructor(props, context){
     super(props, context);
@@ -69,10 +66,8 @@ class MidPartView extends Component {
                 <Text style={[styles.normalText, styles.lightGray]}>今日任务</Text>
                 <Text style={[styles.normalText, styles.lightGray]}>查看全部</Text>
               </View>
-
               {this._renderMissionView()}
             </View>
-
         </View>
     )
   };
@@ -113,15 +108,35 @@ class MissionView extends Component {
   }
 };
 
-
+/*Main view*/
 class Practice extends Component {
 
   constructor(props, context){
     super(props, context);
+
     this.state = {
       width: Dimensions.get('window').width,
+      datas: [],
     };
+    this._fetchBanners();
   };
+
+/*fetch Banner pictures from server */
+  _fetchBanners(){
+    var weakT = this;
+     Helper._get('/homeBanners',
+      function(responseJson){
+        console.log(responseJson.datas);
+        var banners = [];
+        for (var i = 0; i < responseJson.datas.length; i++) {
+          banners[i] = <Image key={i} style={[styles.img, {width: weakT.state.width}]} source={{uri:Util.urlPreix+responseJson.datas[i]}}/>
+        }
+        if(banners.length > 0) {
+          weakT.setState({"datas": banners});
+        }
+      }
+   )
+ };
 
   _subjectOnpress(tag){
     console.log("tap");
@@ -139,16 +154,13 @@ class Practice extends Component {
   };
 
   render(){
-    var banners = [];
-    for (var i = 0; i < pics.length; i++) {
-      banners[i] = <Image key={i} style={[styles.img, {width: this.state.width}]} source={pics[i]}/>
-    }
+
     var subs = [];
 
     for (var i = 0; i < Util.subObj.length; i++) {
       subs[i] = this._renderSubjectionIcon(i);
     }
-
+    console.log("dassss " + this.state.datas);
     return(
           <ScrollView>
             <View style={styles.container} onLayout={this._onLayout}>
@@ -161,7 +173,9 @@ class Practice extends Component {
                 alwaysBounceHorizontal={false}
                 bounces={false}
               >
-                {banners}
+
+                {this.state.datas}
+
               </ScrollView>
             </View>
             <View style={{backgroundColor: '#fff'}}>

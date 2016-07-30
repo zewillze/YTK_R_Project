@@ -15,5 +15,4 @@
 
 
 ![1](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/Simulator%20Screen%20Shot%202016%E5%B9%B47%E6%9C%8829%E6%97%A5%20%E4%B8%8B%E5%8D%883.24.17.png)
-
-![2](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/Simulator%20Screen%20Shot%202016年7月29日%20下午3.24.20.png)
+ 

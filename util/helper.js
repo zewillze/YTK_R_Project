@@ -3,7 +3,8 @@
 
 import React, { Component } from 'react';
 import styles from './styles';
- 
+import Util from './util';
+
 
 import {
   NavigatorIOS,
@@ -16,7 +17,6 @@ var Helper = {
   */
   _setNavigator: function(component, title, leftItem, rightItem, passDatas) {
 
-
     return <NavigatorIOS
         style={styles.navigator}
         barTintColor= '#0085ff'
@@ -27,9 +27,9 @@ var Helper = {
           {
             component: component,
             title: title,
-            rightButtonTitle:rightItem === null ? null:rightItem.itemTitle ,
+            rightButtonTitle: rightItem === null ? null:rightItem.itemTitle ,
             onRightButtonPress: rightItem === null ? null:rightItem.itemOnpress,
-            leftButtonTitle:leftItem === null ? null:leftItem.itemTitle,
+            leftButtonTitle: leftItem === null ? null:leftItem.itemTitle,
             onLeftButtonPress: leftItem == null ? null : leftItem.itemOnpress,
             rightButtonIcon: rightItem === null? null: rightItem.itemIcon,
             leftButtonIcon: leftItem === null? null: leftItem.itemIcon,
@@ -38,7 +38,35 @@ var Helper = {
     />;
   },
 
+  /*Networking*/
+  /*get request*/
+  _get: function (url, callback) {
+    console.log("get "+ (url));
+    console.log("get url " + Util.urlPreix + url);
+    fetch(Util.urlPreix+url)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      callback(responseJson);
+    }).done();
+  },
 
+  /*post request*/
+  _post: function (url, parameter, callback) {
+      var options = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(parameter)
+      };
+
+      fetch(url, options)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        callback(responseJson);
+      }).done();
+  },
 };
 
 

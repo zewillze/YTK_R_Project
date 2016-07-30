@@ -9,6 +9,9 @@ var Util = {
   userName: "jerryze",
   //单位像素
   pixel: 1 / PixelRatio.get(),
+
+  urlPreix: "http:/\/127.0.0.1:5000",
+
   subObj: [
     {
       name:  "语文",
