@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 13,
     paddingBottom: 8,
-    borderWidth: 0.5,
+    borderWidth: Util.pixel,
     borderColor:'#c3c3c3',
     borderStyle:'solid',
   },
