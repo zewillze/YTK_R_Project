@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 
-/* */
 const pics = [require('../resources/pic2.jpg'), require('../resources/pic1.jpg'), require('../resources/pic3.jpg'), require('../resources/pic4.jpg')]
 
 
@@ -84,12 +83,12 @@ class MidPartView extends Component {
 class MissionView extends Component {
   render(){
     return(
-      <View style={[styles.missionViewContainer, {flexDirection:'row', }]}>
+      <View style={[styles.missionViewContainer, {flexDirection:'row', borderWidth: Util.pixel}]}>
         <View style={styles.missionLeftView}>
           <Text
           numberOfLines={1}
           style={styles.normalText}>
-              英语一错专项第六期-----情景语法2231313123123123
+              英语易错专项第六期-----情景语法2231313123123123
           </Text>
 
           <View style={styles.missionInnerRow}>
@@ -116,15 +115,6 @@ class MissionView extends Component {
 
 
 class Practice extends Component {
-
-  goNext(){
-    this.props.navigator.push({
-      title: 'Chile View title',
-      component: Child,
-      passProps: {myElement: 'child element' },
-
-    });
-  };
 
   constructor(props, context){
     super(props, context);
@@ -154,7 +144,7 @@ class Practice extends Component {
       banners[i] = <Image key={i} style={[styles.img, {width: this.state.width}]} source={pics[i]}/>
     }
     var subs = [];
-    console.log("ffff "+ Util.subObj);
+
     for (var i = 0; i < Util.subObj.length; i++) {
       subs[i] = this._renderSubjectionIcon(i);
     }
@@ -174,12 +164,18 @@ class Practice extends Component {
                 {banners}
               </ScrollView>
             </View>
-            <MidPartView />
+            <View style={{backgroundColor: '#fff'}}>
+              <MidPartView />
 
+              <View style={[{ flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', marginBottom: 5}]}>
+               {subs}
+              </View>
 
-            <View style={[{ flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', marginBottom: 5}]}>
-             {subs}
             </View>
+
+
+
+
         </ScrollView>
     );
   }

@@ -1,10 +1,14 @@
 'use strict';
 import Dimensions from 'Dimensions';
 import React from 'react'
+import {
+  PixelRatio
+}from 'react-native';
 
 var Util = {
   userName: "jerryze",
-
+  //单位像素
+  pixel: 1 / PixelRatio.get(),
   subObj: [
     {
       name:  "语文",

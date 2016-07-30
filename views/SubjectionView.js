@@ -22,7 +22,11 @@ var SubjectionView = React.createClass({
       <View
         style={{  width: width, height: 70, marginTop: 15, marginBottom: 15}}
         >
-        <TouchableHighlight style={{alignItems:'center'}} onPress={() => this._subjectOnpress(this.props.tag)}>
+        <TouchableHighlight
+          style={{alignItems:'center'}}
+           underlayColor='#fff'
+           onPress={() => this._subjectOnpress(this.props.tag)}
+           >
           <Image source={Util.subObj[this.props.tag].icon} />
         </TouchableHighlight>
 

@@ -7,6 +7,8 @@
 import React, { Component } from 'react';
 import Helper from './util/helper';
 import styles from './util/styles';
+import {pics} from './views/practiceView';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -46,7 +48,7 @@ var YTK_R_Project = React.createClass({
   render() {
 
     var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._onPressItem};
-
+    console.log(pics);
     return (
       <TabBarIOS>
 
