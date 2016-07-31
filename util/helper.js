@@ -27,7 +27,7 @@ var Helper = {
           {
             component: component,
             title: title,
-            rightButtonTitle: rightItem === null ? null:rightItem.itemTitle ,
+            rightButtonTitle: rightItem === null ? null: rightItem.itemTitle,
             onRightButtonPress: rightItem === null ? null:rightItem.itemOnpress,
             leftButtonTitle: leftItem === null ? null:leftItem.itemTitle,
             onLeftButtonPress: leftItem == null ? null : leftItem.itemOnpress,

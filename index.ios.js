@@ -18,6 +18,8 @@ import {
 } from 'react-native';
 
 import Practice from './views/practiceView';
+import Discover from './views/discover';
+
 //practice View
 //paper View
 //discover View
@@ -48,6 +50,7 @@ var YTK_R_Project = React.createClass({
   render() {
 
     var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._onPressItem};
+    var disRightItem = {itemTitle:'Test',itemOnpress: this._onPressItem};
     console.log(pics);
     return (
       <TabBarIOS>
@@ -92,7 +95,8 @@ var YTK_R_Project = React.createClass({
                        this.setState({selectedTab: 'discover'});
                      }}
                    >
-                   <Practice />
+
+                   {Helper._setNavigator(Discover, "发现", null, disRightItem)}
        </TabBarIOS.Item>
 
        <TabBarIOS.Item

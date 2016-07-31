@@ -118,7 +118,7 @@ class Practice extends Component {
       width: Dimensions.get('window').width,
       datas: [],
     };
-    this._fetchBanners();
+    // this._fetchBanners();
   };
 
 /*fetch Banner pictures from server */
