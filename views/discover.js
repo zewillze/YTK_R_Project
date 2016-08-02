@@ -59,18 +59,24 @@ const cellDatas = [
 class DiscoverCell extends Component {
   render(){
     console.log("2" + this.props.subMessage);
-    var badgeView = this.props.hasBadge ? <Image style={{width:5, height: 5}} source={require('image!messageCountIcon_26x25_')}/> : null;
+    var badgeView = this.props.hasBadge ? <Image style={{width:5, height: 5, marginLeft: 5}} source={require('image!messageCountIcon_26x25_')}/> : null;
     var subMessage = this.props.subMessage ? <Text style={{color: 'gray', fontSize: 12, marginRight: 5, flex: 3, textAlign:'right'}}>{this.props.subMessage}</Text> : null;
     return(
       <TouchableHighlight>
         <View  style={{flexDirection: 'row', alignItems: 'center', height: 40,}} >
           <Image style={{ marginLeft: 12, }} source={this.props.icon}/>
-          <Text style={{marginLeft: 10, fontSize: 13, color: '#333333', flex: 2}}>
-            {this.props.title}
-          </Text>
-          {badgeView}
+
+          <View style={{flex: 1, flexDirection:'row', marginLeft: 10, alignItems: 'center'}}>
+            <Text style={{fontSize: 13, color: '#333333', paddingLeft: 0}}>
+              {this.props.title}
+
+            </Text>
+            {badgeView}
+          </View>
+
+
           {subMessage}
-          <Image style={{marginRight: 10,   }} source={require('../resources/inputViewRightArrow_4x7_@2x.png')}/>
+          <Image style={{marginRight: 10}} source={require('../resources/inputViewRightArrow_4x7_@2x.png')}/>
 
         </View>
       </TouchableHighlight>
@@ -96,21 +102,23 @@ class Discover extends Component {
         var cells = [];
         for (var j = 0; j < cellContents.length; j++) {
           var ctx = cellContents[j];
-
-          cells[j] = (<Cell style={{backgroundColor: 'white'}} key={'section'+ i + 'cell'+ 'j'}><DiscoverCell title={ctx.title} icon={ctx.icon} hasBadge={ctx.hasBadge} subMessage={ctx.subMessage}/></Cell>);
-
+          cells[j] = (<Cell height={40} style={{backgroundColor: 'white'}} key={'section'+ i + 'cell'+ 'j'}><DiscoverCell title={ctx.title} icon={ctx.icon} hasBadge={ctx.hasBadge} subMessage={ctx.subMessage}/></Cell>);
         }
-        sections.push(<Section key={i}> {cells} </Section>);
+        sections.push(<Section key={i} headerHeight={0} footerHeight={5}> {cells} </Section>);
       }
        console.log(sections.length);
       return (
-        <ScrollView style={{backgroundColor: '#e8e8e8'}}>
+        <View style={{backgroundColor: '#e8e8e8', flex: 1,marginTop: 64}}>
         <TableView
-          style={{flex: 1, marginTop: 5}}
+          style={{backgroundColor: '#e8e8e8', flex: 1, marginTop: 0}}
+          tableViewStyle={TableView.Consts.Style.Plain}
+          contentInset={ {top: 5, left: 0, bottom: 0, right: 0}}
         >
           {sections}
         </TableView>
-        </ScrollView>
+        </View>
+
+
       );
     }
 }

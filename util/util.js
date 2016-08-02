@@ -56,9 +56,11 @@ var Util = {
   ],
 
 
+
   size: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
   },
+  oneThirdWidth: Math.floor(Dimensions.get('window').width/3),
 };
 module.exports = Util;
