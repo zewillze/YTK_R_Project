@@ -12,8 +12,19 @@ import {
   TouchableHighlight,
   NavigatorIOS,
   ScrollView,
-  Image
+  Image,
+  NativeAppEventEmitter
 } from 'react-native';
+
+
+// class PracticeNavi extends Component {
+//   render(){
+//     return({
+//       Helper._setNavigator(Practice)
+//     });
+//   }
+// }
+
 
 
 /* 页面中间部分 （Banner下面）用户名和任务拦*/
@@ -22,7 +33,7 @@ class MidPartView extends Component {
     super(props, context);
     this.state = {
         isLogIn: true,
-        finishMission: true,
+        finishMission: false,
         finishCout: 0,
     };
   };
@@ -36,9 +47,9 @@ class MidPartView extends Component {
   };
 
   _renderUnFinishMissView(){
-    return (<View style={[styles.missionViewContainer, {flexDirection: 'column', justifyContent: 'center', alignItems:'center'}]}>
+    return (<View style={[styles.missionViewContainer, {flexDirection: 'column', justifyContent: 'center', alignItems:'center', margin: 25}]}>
         <Image source={require('image!HomePracticeTaskHintNoTask_22x24_')}/>
-        <Text style={styles.normalText, styles.lightGray}>
+        <Text style={[{fontSize: 11, marginTop: 5}, styles.lightGray]}>
           今日暂无任务，自己High~
         </Text>
         </View>);
@@ -46,7 +57,7 @@ class MidPartView extends Component {
 
 
   render(){
-
+    console.log("i am reload");
     return(
         <View >
             <View style={styles.midPart}>
@@ -111,14 +122,52 @@ class MissionView extends Component {
 /*Main view*/
 class Practice extends Component {
 
+
   constructor(props, context){
     super(props, context);
 
     this.state = {
       width: Dimensions.get('window').width,
       datas: [],
+      theme: ""
     };
-    // this._fetchBanners();
+
+  };
+
+  componentWillMount(){
+    console.log("componentWillMount");
+
+    var sub = NativeAppEventEmitter.addListener(
+      'test',
+      (reminder) => console.log("i am recive " + reminder.obj)
+    );
+
+    var weakT = this;
+    Helper._getTheme(function(theme){
+      console.log("gettt" + theme);
+      weakT.setState({
+        "theme": theme
+      });
+    });
+    /* fetch banner from server */
+    this._fetchBanners();
+
+
+  };
+
+  componentDidMount(){
+      // your code here
+
+      var currentRoute = this.props.navigator.navigationContext.currentRoute;
+      this.props.navigator.navigationContext.addListener('didfocus', (event) => {
+          //didfocus emit in componentDidMount
+          if (currentRoute === event.data.route) {
+              console.log("me didAppear");
+          } else {
+              console.log("me didDisappear, other didAppear");
+          }
+          console.log(event.data.route);
+       });
   };
 
 /*fetch Banner pictures from server */
@@ -161,6 +210,7 @@ class Practice extends Component {
       subs[i] = this._renderSubjectionIcon(i);
     }
     console.log("dassss " + this.state.datas);
+
     return(
           <ScrollView>
             <View style={styles.container} onLayout={this._onLayout}>
@@ -186,10 +236,6 @@ class Practice extends Component {
               </View>
 
             </View>
-
-
-
-
         </ScrollView>
     );
   }
@@ -279,7 +325,7 @@ const styles = StyleSheet.create({
      marginTop: 5
   },
   lightGray: {
-    color: '#999999'
+    color: '#c8c8c8'
   },
   darkGray: {
     color: '#8f959b',

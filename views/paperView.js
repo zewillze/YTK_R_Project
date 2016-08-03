@@ -19,13 +19,14 @@ import {
 
 class HeaderTitleView extends Component {
   render(){
+    var arrowImage = this.props.hasArrow ? <Image source={require('../resources/inputViewRightArrow_4x7_@2x.png')}/>: null;
     return(
         <View>
           <View style={{flexDirection: 'row',alignItems: 'center', justifyContent: 'space-between', margin: 10}}>
             <Text style={{fontSize: 13}}>
               {this.props.title}
             </Text>
-            <Image source={require('../resources/inputViewRightArrow_4x7_@2x.png')}/>
+            {arrowImage}
           </View>
 
           <View style={{marginLeft: 10,marginRight: 10,borderTopWidth: Util.pixel, borderStyle:'solid',borderColor:'#c3c3c3',}} / >
@@ -45,7 +46,6 @@ class NewsPaperHorizalScrollView extends Component {
       <TouchableHighlight key={tag} underlayColor='white' onPress={this._onpreess} style={{padding: 0,margin: 10,}}>
         <View>
           <Image source={require('../resources/PaperCoverSelectedBackground_91x132_@2x.png')}></Image>
-          <Text> test text </Text>
         </View>
 
       </TouchableHighlight>
@@ -73,17 +73,17 @@ const CourseListDatas = {
   title: "高考真题&模拟题(共8157份试卷)",
   courses: [
     {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
+    {icon: require('../resources/PaperCourseIconSMath_20x20_@2x.png'), text: "理数"},
+    {icon: require('../resources/PaperCourseIconLMath_20x20_@2x.png'), text: "文数"},
+    {icon: require('../resources/PaperCourseIconEnglish_16x17_@2x.png'), text: "英语"},
+    {icon: require('../resources/PaperCourseIconSCombination_20x20_@2x.png'), text: "理综"},
+    {icon: require('../resources/PaperCourseIconLCombination_20x20_@2x.png'), text: "文综"},
+    {icon: require('../resources/PaperCourseIconPhysics_18x20_@2x.png'), text: "物理"},
+    {icon: require('../resources/PaperCourseIconChemistry_14x20_@2x.png'), text: "化学"},
+    {icon: require('../resources/PaperCourseIconBiology_20x20_@2x.png'), text: "生物"},
+    {icon: require('../resources/PaperCourseIconHistory_19x20_@2x.png'), text: "历史"},
+    {icon: require('../resources/PaperCourseIconGeography_17x20_@2x.png'), text: "地理"},
+    {icon: require('../resources/PaperCourseIconPolitics_20x19_@2x.png'), text: "政治"},
   ]
 
 };
@@ -96,9 +96,9 @@ class CourseListView extends Component {
   }
   _drawSubjectionV(obj: obj,tag){
     return (
-      <TouchableHighlight key={tag} underlayColor='#c8c8c8'  style={{width: Util.oneThirdWidth, height: 40}} onPress={(this._onpreeOn)}>
+      <TouchableHighlight key={tag} underlayColor='#c8c8c8'  style={{width: Util.oneThirdWidth, height: Util.oneThirdWidth - 40}} onPress={(this._onpreeOn)}>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-          <Image style={{height: 20, marginRight: 5}} source={obj.icon}/>
+          <Image style={{ marginRight: 8}} source={obj.icon}/>
           <Text style={{fontSize: 12}}>{obj.text}</Text>
         </View>
       </TouchableHighlight>
@@ -127,7 +127,11 @@ class CourseListView extends Component {
 
 
 class PaperView extends Component {
+  componentWillMount(){
+    console.log("PaperView componentWillMount");
+  };
   render(){
+
     return(
       <ScrollView style={{backgroundColor: '#e8e8e8'}}>
       <View style={{ flexDirection: 'column', backgroundColor:'white' }}>

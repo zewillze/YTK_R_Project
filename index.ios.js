@@ -1,39 +1,42 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+'use strict';
 
 import React, { Component } from 'react';
 import Helper from './util/helper';
 import styles from './util/styles';
-import {pics} from './views/practiceView';
+
+
 
 import {
   AppRegistry,
   StyleSheet,
   Text,
   TabBarIOS,
-  NavigatorIOS
+  NavigatorIOS,
+  PushNotificationIOS,
+  NativeModules
 } from 'react-native';
 
 import Practice from './views/practiceView';
 import Discover from './views/discover';
 import PaperView from './views/paperView';
+import Myprofile from './views/myprofile';
+
+
 //practice View
 //paper View
 //discover View
 //myprofile View
 
 
-
 var YTK_R_Project = React.createClass({
 
 
-
   getInitialState: function() {
+
+
      return {
        selectedTab: 'practice',
+       selectedTheme: 'light'
      };
    },
   _onPressTab: function(value){
@@ -42,23 +45,35 @@ var YTK_R_Project = React.createClass({
        selectedTab: value,
      });
    },
-   _onPressItem: function(){
-     console.log("jajajaj");
+   _changeTheme: function(){
+
+     var NotificationManager = NativeModules.NotificationManager;
+     NotificationManager.postNotification("test", {"obj": "obj"});
+
+     var theme = this.state.selectedTheme === 'light'? 'night': 'light';
+     this.setState({
+       selectedTheme: theme
+     });
+
+     Helper._setTheme(theme);
+
    },
 
 
   render() {
 
-    var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._onPressItem};
+    var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._changeTheme};
 
-    console.log(pics);
+    var ic = this.state.selectedTheme === 'light'? require('image!TabBarIconPracticeNormal_20x20_') :require('./resources/TabBarIconPracticeNormal-night_20x20_@2x.png');
+    var ics = this.state.selectedTheme === 'light'? require('image!TabBarIconPracticeSelected_20x20_'): require('./resources/TabBarIconPracticeSelected-night_20x20_@2x.png');
     return (
       <TabBarIOS>
 
+
         <TabBarIOS.Item
           title = "练习"
-          icon = {require('image!TabBarIconPracticeNormal_20x20_')}
-          selectedIcon = {require('image!TabBarIconPracticeSelected_20x20_')}
+          icon = {ic}
+          selectedIcon = {ics}
           renderAsOriginal
           selected = {this.state.selectedTab === 'practice'}
           onPress = {() => {
@@ -66,7 +81,7 @@ var YTK_R_Project = React.createClass({
           }}
         >
 
-        {Helper._setNavigator(Practice, "离高考还有0天", null, rightItem)}
+        {Helper._setNavigator(Practice, "离高考还有0天", null, rightItem, "i 'm pass data'")}
 
         </TabBarIOS.Item>
 
@@ -83,7 +98,7 @@ var YTK_R_Project = React.createClass({
                 }}
               >
               {Helper._setNavigator(PaperView, "试卷", null, null)}
-         
+
 
        </TabBarIOS.Item>
 
@@ -111,7 +126,7 @@ var YTK_R_Project = React.createClass({
                          this.setState({selectedTab: 'misc'});
                        }}
                      >
-                     <Practice />
+                     {Helper._setNavigator(Myprofile, "发现", null, null)}
        </TabBarIOS.Item>
 
 

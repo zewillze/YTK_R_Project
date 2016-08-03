@@ -2,7 +2,8 @@
 import Dimensions from 'Dimensions';
 import React from 'react'
 import {
-  PixelRatio
+  PixelRatio,
+  View
 }from 'react-native';
 
 var Util = {
@@ -62,5 +63,6 @@ var Util = {
     height: Dimensions.get('window').height
   },
   oneThirdWidth: Math.floor(Dimensions.get('window').width/3),
+  borderline: (<View style={{paddingTop: 0,borderTopWidth: 1 / PixelRatio.get(), borderStyle:'solid',borderColor:'#c3c3c3'}} />),
 };
 module.exports = Util;
