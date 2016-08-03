@@ -155,20 +155,7 @@ class Practice extends Component {
 
   };
 
-  componentDidMount(){
-      // your code here
 
-      var currentRoute = this.props.navigator.navigationContext.currentRoute;
-      this.props.navigator.navigationContext.addListener('didfocus', (event) => {
-          //didfocus emit in componentDidMount
-          if (currentRoute === event.data.route) {
-              console.log("me didAppear");
-          } else {
-              console.log("me didDisappear, other didAppear");
-          }
-          console.log(event.data.route);
-       });
-  };
 
 /*fetch Banner pictures from server */
   _fetchBanners(){

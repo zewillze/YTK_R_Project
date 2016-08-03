@@ -135,7 +135,7 @@ class PaperView extends Component {
     return(
       <ScrollView style={{backgroundColor: '#e8e8e8'}}>
       <View style={{ flexDirection: 'column', backgroundColor:'white' }}>
-        <HeaderTitleView title="最新试卷"/>
+        <HeaderTitleView title="最新试卷" hasArrow={true}/>
         <NewsPaperHorizalScrollView />
       </View>
       <CourseListView datas={CourseListDatas}/>

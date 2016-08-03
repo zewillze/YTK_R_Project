@@ -126,7 +126,7 @@ var YTK_R_Project = React.createClass({
                          this.setState({selectedTab: 'misc'});
                        }}
                      >
-                     {Helper._setNavigator(Myprofile, "发现", null, null)}
+                     {Helper._setNavigator(Myprofile, "我", null, null)}
        </TabBarIOS.Item>
 
 
