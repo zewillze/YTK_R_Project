@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   ListView,
   ScrollView,
+  NativeAppEventEmitter,
   Image
 } from 'react-native';
 
@@ -114,9 +115,9 @@ class CourseListView extends Component {
         views[i] = this._drawSubjectionV(courses[i] ,i);
       }
       return(
-        <View style={{flex: 1, flexDirection: 'column', marginTop: 10, backgroundColor: 'white'}}>
+        <View style={{flex: 1, flexDirection: 'column', marginTop: 10, backgroundColor: bgcolor}}>
           <HeaderTitleView title={title}/>
-          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: 'white', alignItems: 'center', marginBottom: Util.pixel}}>
+          <View style={{flex: 1, flexDirection: 'row', flexWrap: 'wrap', backgroundColor: bgcolor, alignItems: 'center', marginBottom: Util.pixel}}>
             {views}
           </View>
         </View>
@@ -125,16 +126,44 @@ class CourseListView extends Component {
     }
 };
 
-
+var sub = null;
+var bgcolor = null;
 class PaperView extends Component {
+
+  constructor(props, context){
+    super(props, context);
+    var t = null;
+    Helper._getTheme(function(theme){
+      t = theme;
+    });
+
+    this.state = {
+
+      currentTheme: t
+    };
+
+  };
+
+
   componentWillMount(){
     console.log("PaperView componentWillMount");
+    sub = NativeAppEventEmitter.addListener(
+      'CHANGE_THEME',
+      (reminder) => {
+        this.setState({"currentTheme": reminder.currentTheme});
+      }
+    );
   };
-  render(){
 
+  componentWillUnmount(){
+    sub.remove();
+  };
+
+  render(){
+    bgcolor = this.state.currentTheme === 'light' ? '#fff': '#1f282f';
     return(
       <ScrollView style={{backgroundColor: '#e8e8e8'}}>
-      <View style={{ flexDirection: 'column', backgroundColor:'white' }}>
+      <View style={{ flexDirection: 'column', backgroundColor:bgcolor}}>
         <HeaderTitleView title="最新试卷" hasArrow={true}/>
         <NewsPaperHorizalScrollView />
       </View>

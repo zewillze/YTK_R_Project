@@ -7,6 +7,7 @@ import {
   Text,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   Image
 } from 'react-native';
 
@@ -14,36 +15,27 @@ import {
 var SubjectionView = React.createClass({
   _subjectOnpress:function(tag){
     console.log("you click" + tag);
-    var pre = "http://127.0.0.1:5000/";
 
-    fetch('http://127.0.0.1:5000/homeBanners')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.datas);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
 
   },
   render(){
     var width = Math.floor(Util.size.width/3);
-
+    console.log("heie0");
     return(
       <View
         style={{  width: width, height: 70, marginTop: 15, marginBottom: 15}}
         >
-        <TouchableHighlight
+        <TouchableOpacity
           style={{alignItems:'center'}}
-           underlayColor='#fff'
+
            onPress={() => this._subjectOnpress(this.props.tag)}
            >
-          <Image source={Util.subObj[this.props.tag].icon} />
+          <Image source={this.props.icon} />
 
-        </TouchableHighlight>
+        </TouchableOpacity>
 
-        <Text style={{textAlign:'center', paddingTop: 5}}>
-            {Util.subObj[this.props.tag].name}
+        <Text style={{textAlign:'center', paddingTop: 5, color: this.props.color}}>
+            {this.props.name}
         </Text>
       </View>
     );

@@ -45,12 +45,12 @@ var YTK_R_Project = React.createClass({
        selectedTab: value,
      });
    },
+
    _changeTheme: function(){
 
-     var NotificationManager = NativeModules.NotificationManager;
-     NotificationManager.postNotification("test", {"obj": "obj"});
-
      var theme = this.state.selectedTheme === 'light'? 'night': 'light';
+     var NotificationManager = NativeModules.NotificationManager;
+     NotificationManager.postNotification("CHANGE_THEME", {"currentTheme": theme});
      this.setState({
        selectedTheme: theme
      });

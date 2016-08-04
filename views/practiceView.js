@@ -16,15 +16,8 @@ import {
   NativeAppEventEmitter
 } from 'react-native';
 
-
-// class PracticeNavi extends Component {
-//   render(){
-//     return({
-//       Helper._setNavigator(Practice)
-//     });
-//   }
-// }
-
+//global flag
+var isNight = null;
 
 
 /* 页面中间部分 （Banner下面）用户名和任务拦*/
@@ -46,8 +39,10 @@ class MidPartView extends Component {
     return <MissionView />;
   };
 
+
   _renderUnFinishMissView(){
-    return (<View style={[styles.missionViewContainer, {flexDirection: 'column', justifyContent: 'center', alignItems:'center', margin: 25}]}>
+    var themecolor = isNight ? styles.nightBorderLineColor: styles.lighBorderLineColor;
+    return (<View style={[styles.missionViewContainer, {flexDirection: 'column', justifyContent: 'center', alignItems:'center', margin: 25} ,themecolor]}>
         <Image source={require('image!HomePracticeTaskHintNoTask_22x24_')}/>
         <Text style={[{fontSize: 11, marginTop: 5}, styles.lightGray]}>
           今日暂无任务，自己High~
@@ -82,14 +77,15 @@ class MidPartView extends Component {
         </View>
     )
   };
-
 }
 
 
 class MissionView extends Component {
   render(){
+
+    var lineColor = isNight ? styles.lineColor: styles.lighBorderLineColor;
     return(
-      <View style={[styles.missionViewContainer, {flexDirection:'row', borderWidth: Util.pixel}]}>
+      <View style={[styles.missionViewContainer, lineColor, {flexDirection:'row', borderWidth: Util.pixel}]}>
         <View style={styles.missionLeftView}>
           <Text
           numberOfLines={1}
@@ -119,42 +115,63 @@ class MissionView extends Component {
   }
 };
 
+
+
+var sub = null;
 /*Main view*/
 class Practice extends Component {
 
 
   constructor(props, context){
     super(props, context);
+    var t = null;
+    Helper._getTheme(function(theme){
+      t = theme;
+    });
 
     this.state = {
       width: Dimensions.get('window').width,
       datas: [],
-      theme: ""
+      currentTheme: t
     };
 
   };
 
   componentWillMount(){
-    console.log("componentWillMount");
-
-    var sub = NativeAppEventEmitter.addListener(
-      'test',
-      (reminder) => console.log("i am recive " + reminder.obj)
-    );
 
     var weakT = this;
-    Helper._getTheme(function(theme){
-      console.log("gettt" + theme);
-      weakT.setState({
-        "theme": theme
-      });
-    });
+/* set change theme listener */
+
+    sub = NativeAppEventEmitter.addListener(
+      'CHANGE_THEME',
+      (reminder) => {
+        this.setState({"currentTheme": reminder.currentTheme});
+      }
+    );
+
     /* fetch banner from server */
-    this._fetchBanners();
+    // this._fetchBanners();
 
 
   };
 
+  componentWillUnmount(){
+    sub.remove();
+  }
+  // componentDidMount: function() {
+
+  //
+  //     var currentRoute = this.props.navigator.navigationContext.currentRoute;
+  //     this.props.navigator.navigationContext.addListener('didfocus', (event) => {
+  //         //didfocus emit in componentDidMount
+  //         if (currentRoute === event.data.route) {
+  //             console.log("me didAppear");
+  //         } else {
+  //             console.log("me didDisappear, other didAppear");
+  //         }
+  //         console.log(event.data.route);
+  //      });
+  // },
 
 
 /*fetch Banner pictures from server */
@@ -180,26 +197,34 @@ class Practice extends Component {
 
 
   _renderSubjectionIcon(idx){
-
+    var obj = Util.subObj[idx];
+    var name = obj.name;
+    console.log("t is " + this.state.currentTheme);
+    var icon = this.state.currentTheme === 'light' ? obj.lightIcon :obj.nightIcon;
+    var nightGrayColor = this.state.currentTheme === 'light' ? '#000': '#505a62';
     return (
       <SubjectionView
         key={idx}
         tag={idx}
+        name={name}
+        icon={icon}
+        color={nightGrayColor}
       />
     );
   };
 
   render(){
 
+    isNight = this.state.currentTheme === 'night'
     var subs = [];
 
     for (var i = 0; i < Util.subObj.length; i++) {
       subs[i] = this._renderSubjectionIcon(i);
     }
     console.log("dassss " + this.state.datas);
-
+    var bgcolor = isNight ? styles.nightBackgroundColor: styles.lightBackgroundColor;
     return(
-          <ScrollView>
+          <ScrollView style={ bgcolor}>
             <View style={styles.container} onLayout={this._onLayout}>
               <ScrollView
                 automaticallyAdjustContentInsets={false}
@@ -215,7 +240,7 @@ class Practice extends Component {
 
               </ScrollView>
             </View>
-            <View style={{backgroundColor: '#fff'}}>
+            <View style={bgcolor}>
               <MidPartView />
 
               <View style={[{ flexDirection: 'row', flexWrap: 'wrap', justifyContent:'space-between', marginBottom: 5}]}>
@@ -233,7 +258,6 @@ class Practice extends Component {
 const styles = StyleSheet.create({
   container: {
      flex: 1,
-     backgroundColor: '#f8f8f8',
   },
   scrollView: {
     height: 160,
@@ -297,7 +321,7 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingBottom: 8,
     borderWidth: Util.pixel,
-    borderColor:'#c3c3c3',
+    borderColor: '#c3c3c3',
     borderStyle:'solid',
   },
   missionLeftView: {
@@ -320,6 +344,17 @@ const styles = StyleSheet.create({
   black: {
     color:'#333333',
   },
+
+  n_lightGray: {
+    color: '#505a62'
+  },
+  n_darkGray: {
+    color: '#505a62',
+  },
+  n_black: {
+    color:'#505a62',
+  },
+
   bigText: {
     fontSize: 14,
   },
@@ -329,6 +364,21 @@ const styles = StyleSheet.create({
   smallText:{
     fontSize: 11,
   },
+
+  lightBackgroundColor: {
+    backgroundColor: '#fff'
+  },
+
+  nightBackgroundColor: {
+    backgroundColor: '#1f282f'
+  },
+  nightBorderLineColor: {
+    borderColor: '#28323a'
+  },
+  lighBorderLineColor: {
+    borderColor: '#c3c3c3'
+  }
+
 
 
 });
