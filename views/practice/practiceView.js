@@ -1,8 +1,8 @@
 'use strict'
 import React, { Component } from 'react';
 import Dimensions from 'Dimensions';
-import Util from '../util/util';
-import Helper from '../util/helper';
+import Util from '../../util/util';
+import Helper from '../../util/helper';
 import SubjectionView from './SubjectionView';
 
 import {
@@ -53,6 +53,8 @@ class MidPartView extends Component {
 
   render(){
     console.log("i am reload");
+    var userNameColor = !isNight ? styles.darkGrayText: styles.n_darkGray;
+    var textColor = !isNight? styles.lightGray: styles.n_lightGray;
     return(
         <View >
             <View style={styles.midPart}>
@@ -60,8 +62,8 @@ class MidPartView extends Component {
                 <Image style={styles.midSmallIcon} source={require('image!MiscDefaultAvatar_55x55_')} />
 
                 <View style={{flex: 2, flexDirection:'row'}}>
-                  <Text style={[styles.normalText, styles.darkGrayText]}>{this.state.isLogIn? Util.userName:"null"}</Text>
-                  <Text style={[styles.bigText, styles.lightGray, {marginLeft: 5}]}>{this.state.finishCout===0? "今天未练习": "今天已练习题目"+this.state.finishCout+"道"}</Text>
+                  <Text style={[styles.normalText, userNameColor]}>{this.state.isLogIn? Util.userName:"null"}</Text>
+                  <Text style={[styles.bigText, textColor, {marginLeft: 5}]}>{this.state.finishCout===0? "今天未练习": "今天已练习题目"+this.state.finishCout+"道"}</Text>
                 </View>
               </View>
             </View>
@@ -69,8 +71,8 @@ class MidPartView extends Component {
 
             <View style={styles.midP2Container}>
               <View style={styles.midP2TitleView}>
-                <Text style={[styles.normalText, styles.lightGray]}>今日任务</Text>
-                <Text style={[styles.normalText, styles.lightGray]}>查看全部</Text>
+                <Text style={[styles.normalText, textColor]}>今日任务</Text>
+                <Text style={[styles.normalText, textColor]}>查看全部</Text>
               </View>
               {this._renderMissionView()}
             </View>
@@ -116,7 +118,7 @@ class MissionView extends Component {
 };
 
 
-
+/* listener*/
 var sub = null;
 /*Main view*/
 class Practice extends Component {
@@ -124,17 +126,18 @@ class Practice extends Component {
 
   constructor(props, context){
     super(props, context);
-    var t = null;
-    Helper._getTheme(function(theme){
-      t = theme;
-    });
+
 
     this.state = {
       width: Dimensions.get('window').width,
       datas: [],
-      currentTheme: t
+      currentTheme: ""
     };
 
+    var weakT = this;
+    Helper._getTheme(function(theme){
+      weakT.setState({"currentTheme": theme})
+    });
   };
 
   componentWillMount(){
@@ -158,20 +161,7 @@ class Practice extends Component {
   componentWillUnmount(){
     sub.remove();
   }
-  // componentDidMount: function() {
 
-  //
-  //     var currentRoute = this.props.navigator.navigationContext.currentRoute;
-  //     this.props.navigator.navigationContext.addListener('didfocus', (event) => {
-  //         //didfocus emit in componentDidMount
-  //         if (currentRoute === event.data.route) {
-  //             console.log("me didAppear");
-  //         } else {
-  //             console.log("me didDisappear, other didAppear");
-  //         }
-  //         console.log(event.data.route);
-  //      });
-  // },
 
 
 /*fetch Banner pictures from server */
@@ -346,10 +336,10 @@ const styles = StyleSheet.create({
   },
 
   n_lightGray: {
-    color: '#505a62'
+    color: '#3f4c5a'
   },
   n_darkGray: {
-    color: '#505a62',
+    color: '#555e78',
   },
   n_black: {
     color:'#505a62',
@@ -378,9 +368,6 @@ const styles = StyleSheet.create({
   lighBorderLineColor: {
     borderColor: '#c3c3c3'
   }
-
-
-
 });
 
 module.exports = Practice;

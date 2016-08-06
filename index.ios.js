@@ -13,13 +13,14 @@ import {
   TabBarIOS,
   NavigatorIOS,
   PushNotificationIOS,
-  NativeModules
+  NativeModules,
+  AsyncStorage
 } from 'react-native';
 
-import Practice from './views/practiceView';
-import Discover from './views/discover';
-import PaperView from './views/paperView';
-import Myprofile from './views/myprofile';
+import Practice from './views/practice/practiceView';
+import Discover from './views/discover/discover';
+import PaperView from './views/paper/paperView';
+import Myprofile from './views/misc/myprofile';
 
 
 //practice View
@@ -27,17 +28,51 @@ import Myprofile from './views/myprofile';
 //discover View
 //myprofile View
 
+const TabbarIcons = {
+  lightNormal: [
+    require('image!TabBarIconPracticeNormal_20x20_'),
+    require('image!TabBarIconPaperNormal_20x20_'),
+    require('image!TabBarIconDiscoveryNormal_20x20_'),
+    require('image!TabBarIconMiscNormal_20x20_'),
+  ],
+  lightSelect: [
+    require('image!TabBarIconPracticeSelected_20x20_'),
+    require('image!TabBarIconPaperSelected_20x20_'),
+    require('image!TabBarIconDiscoverySelected_20x20_'),
+    require('image!TabBarIconMiscSelected_20x20_'),
+  ],
+  nightNormal: [
+    require('image!TabBarIconPracticeNormal-night_20x20_'),
+    require('image!TabBarIconPaperNormal-night_20x20_'),
+    require('image!TabBarIconDiscoveryNormal-night_20x20_'),
+    require('image!TabBarIconMiscNormal-night_20x20_'),
+  ],
+  nightSelect: [
+    require('image!TabBarIconPracticeSelected-night_20x20_'),
+    require('image!TabBarIconPaperSelected-night_20x20_'),
+    require('image!TabBarIconDiscoverySelected-night_20x20_'),
+    require('image!TabBarIconMiscSelected-night_20x20_'),
+  ],
+};
 
 var YTK_R_Project = React.createClass({
 
 
   getInitialState: function() {
 
-
      return {
        selectedTab: 'practice',
-       selectedTheme: 'light'
+       selectedTheme: ''
      };
+   },
+
+   componentWillMount:function(){
+     var thiz = this;
+     Helper._getTheme(function(value){
+       thiz.setState({
+         selectedTheme: value
+       });
+     });
    },
   _onPressTab: function(value){
 
@@ -47,6 +82,7 @@ var YTK_R_Project = React.createClass({
    },
 
    _changeTheme: function(){
+
 
      var theme = this.state.selectedTheme === 'light'? 'night': 'light';
      var NotificationManager = NativeModules.NotificationManager;
@@ -61,19 +97,23 @@ var YTK_R_Project = React.createClass({
 
 
   render() {
-
+    console.log("initialTheme :" + this.state.selectedTheme);
     var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._changeTheme};
+    var isNight = this.state.selectedTheme === 'night';
 
-    var ic = this.state.selectedTheme === 'light'? require('image!TabBarIconPracticeNormal_20x20_') :require('./resources/TabBarIconPracticeNormal-night_20x20_@2x.png');
-    var ics = this.state.selectedTheme === 'light'? require('image!TabBarIconPracticeSelected_20x20_'): require('./resources/TabBarIconPracticeSelected-night_20x20_@2x.png');
+
+    var icons = !isNight ? TabbarIcons.lightNormal : TabbarIcons.nightNormal;
+    var selectedIcons = !isNight ? TabbarIcons.lightSelect: TabbarIcons.nightSelect;
+
+    var btcolor = !isNight? null : '#1c232a';
     return (
-      <TabBarIOS>
+      <TabBarIOS barTintColor={btcolor}>
 
 
         <TabBarIOS.Item
           title = "练习"
-          icon = {ic}
-          selectedIcon = {ics}
+          icon = {icons[0]}
+          selectedIcon = {selectedIcons[0]}
           renderAsOriginal
           selected = {this.state.selectedTab === 'practice'}
           onPress = {() => {
@@ -81,7 +121,7 @@ var YTK_R_Project = React.createClass({
           }}
         >
 
-        {Helper._setNavigator(Practice, "离高考还有0天", null, rightItem, "i 'm pass data'")}
+        {Helper._setNavigator(isNight, Practice, "离高考还有0天", null, rightItem, "i 'm pass data'")}
 
         </TabBarIOS.Item>
 
@@ -89,23 +129,23 @@ var YTK_R_Project = React.createClass({
 
        <TabBarIOS.Item
                 title = "试卷"
-                icon = {require('image!TabBarIconPaperNormal_20x20_')}
-                selectedIcon = {require('image!TabBarIconPaperSelected_20x20_')}
-                renderAsOriginal
+                icon = {icons[1]}
+                selectedIcon = {selectedIcons[1]}
+                renderAsOriginal={true}
                 selected = {this.state.selectedTab === 'paper'}
                 onPress = {() => {
                   this.setState({selectedTab: 'paper'});
                 }}
               >
-              {Helper._setNavigator(PaperView, "试卷", null, null)}
+              {Helper._setNavigator(isNight, PaperView, "试卷", null, null)}
 
 
        </TabBarIOS.Item>
 
        <TabBarIOS.Item
                      title = "发现"
-                     icon = {require('image!TabBarIconDiscoveryNormal_20x20_')}
-                     selectedIcon = {require('image!TabBarIconDiscoverySelected_20x20_')}
+                     icon = {icons[2]}
+                     selectedIcon = {selectedIcons[2]}
                      renderAsOriginal
                      selected = {this.state.selectedTab === 'discover'}
                      onPress = {() => {
@@ -113,20 +153,20 @@ var YTK_R_Project = React.createClass({
                      }}
                    >
 
-                   {Helper._setNavigator(Discover, "发现", null, null)}
+                   {Helper._setNavigator(isNight, Discover, "发现", null, null)}
        </TabBarIOS.Item>
 
        <TabBarIOS.Item
                        title = "我"
-                       icon = {require('image!TabBarIconMiscNormal_20x20_')}
-                       selectedIcon = {require('image!TabBarIconMiscSelected_20x20_')}
+                       icon = {icons[3]}
+                       selectedIcon = {selectedIcons[3]}
                        renderAsOriginal
                        selected = {this.state.selectedTab === 'misc'}
                        onPress = {() => {
                          this.setState({selectedTab: 'misc'});
                        }}
                      >
-                     {Helper._setNavigator(Myprofile, "我", null, null)}
+                     {Helper._setNavigator(isNight, Myprofile, "我", null, null)}
        </TabBarIOS.Item>
 
 

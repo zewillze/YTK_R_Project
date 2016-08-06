@@ -16,11 +16,13 @@ var Helper = {
   /*
     (ItemObj)leftItem: {itemTitle: string, itemIcon:require('') itemOnpress: function}
   */
-  _setNavigator: function(component, title, leftItem, rightItem, passDatas) {
+  _setNavigator: function(isNight,component, title, leftItem, rightItem, passDatas) {
+
+
     return <NavigatorIOS
         style={styles.navigator}
         barTintColor= '#0085ff'
-        barTitleColor='#fff'
+        barTitleColor= '#fff'
         titleTextColor='#fff'
         tintColor='#fff'
         renderScene={component}

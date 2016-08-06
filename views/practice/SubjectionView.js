@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react';
-import Util from '../util/util';
+import Util from '../../util/util';
 
 import {
   StyleSheet,

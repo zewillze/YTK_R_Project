@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react';
 import TableView from 'react-native-tableview';
-import CommonCell from './commoncell';
+import CommonCell from '.././commoncell';
 var Section = TableView.Section;
 var Item = TableView.Item;
 var Cell = TableView.Cell;
@@ -17,25 +17,25 @@ import {
 
 const cellDatas = [
   [{
-      "icon": require('../resources/DropDownRealPaperNormal_16x16_@2x.png'),
+      "icon": require('../../resources/DropDownRealPaperNormal_16x16_@2x.png'),
       title: "小猿读报",
       subMessage: "7月30日秒抢秋季系统板"
   }],
 
   [
     {
-        "icon": require('../resources/DiscoveryHomeworkGroupIcon_16x16_@2x.png'),
+        "icon": require('../../resources/DiscoveryHomeworkGroupIcon_16x16_@2x.png'),
         title: "作业群",
         hasBottomLine: true
     },
     {
-        "icon": require('../resources/DiscoveryLeaderBoardIcon_15x16_@2x.png'),
+        "icon": require('../../resources/DiscoveryLeaderBoardIcon_15x16_@2x.png'),
         title: "排行榜",
     }
   ],
 
   [{
-      "icon": require('../resources/DiscoveryPromotionIcon_14x16_@2x.png'),
+      "icon": require('../../resources/DiscoveryPromotionIcon_14x16_@2x.png'),
       title: "班课商城",
       hasBadge: true,
       subMessage: "7月30日秒抢秋季系统板"
@@ -43,13 +43,13 @@ const cellDatas = [
 
   [
     {
-        "icon": require('../resources/DiscoveryOnlineTutorIcon_16x15_@2x.png'),
+        "icon": require('../../resources/DiscoveryOnlineTutorIcon_16x15_@2x.png'),
         title: "在线辅导",
         hasBottomLine: true,
         subMessage: "猿题库新产品"
     },
     {
-        "icon": require('../resources/DiscoverySearchIcon_16x16_@2x.png'),
+        "icon": require('../../resources/DiscoverySearchIcon_16x16_@2x.png'),
         title: "拍照搜题",
     }
   ],

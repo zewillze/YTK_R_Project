@@ -1,8 +1,8 @@
 'use strict'
 import React, { Component } from 'react';
 import TableView from 'react-native-tableview';
-import Util from '../util/util';
-import Helper from '../util/helper';
+import Util from '../../util/util';
+import Helper from '../../util/helper';
 var Section = TableView.Section;
 var Item = TableView.Item;
 var Cell = TableView.Cell;
@@ -20,7 +20,7 @@ import {
 
 class HeaderTitleView extends Component {
   render(){
-    var arrowImage = this.props.hasArrow ? <Image source={require('../resources/inputViewRightArrow_4x7_@2x.png')}/>: null;
+    var arrowImage = this.props.hasArrow ? <Image source={require('../../resources/inputViewRightArrow_4x7_@2x.png')}/>: null;
     return(
         <View>
           <View style={{flexDirection: 'row',alignItems: 'center', justifyContent: 'space-between', margin: 10}}>
@@ -46,7 +46,7 @@ class NewsPaperHorizalScrollView extends Component {
     return (
       <TouchableHighlight key={tag} underlayColor='white' onPress={this._onpreess} style={{padding: 0,margin: 10,}}>
         <View>
-          <Image source={require('../resources/PaperCoverSelectedBackground_91x132_@2x.png')}></Image>
+          <Image source={require('../../resources/PaperCoverSelectedBackground_91x132_@2x.png')}></Image>
         </View>
 
       </TouchableHighlight>
@@ -73,18 +73,18 @@ class NewsPaperHorizalScrollView extends Component {
 const CourseListDatas = {
   title: "高考真题&模拟题(共8157份试卷)",
   courses: [
-    {icon: require('../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
-    {icon: require('../resources/PaperCourseIconSMath_20x20_@2x.png'), text: "理数"},
-    {icon: require('../resources/PaperCourseIconLMath_20x20_@2x.png'), text: "文数"},
-    {icon: require('../resources/PaperCourseIconEnglish_16x17_@2x.png'), text: "英语"},
-    {icon: require('../resources/PaperCourseIconSCombination_20x20_@2x.png'), text: "理综"},
-    {icon: require('../resources/PaperCourseIconLCombination_20x20_@2x.png'), text: "文综"},
-    {icon: require('../resources/PaperCourseIconPhysics_18x20_@2x.png'), text: "物理"},
-    {icon: require('../resources/PaperCourseIconChemistry_14x20_@2x.png'), text: "化学"},
-    {icon: require('../resources/PaperCourseIconBiology_20x20_@2x.png'), text: "生物"},
-    {icon: require('../resources/PaperCourseIconHistory_19x20_@2x.png'), text: "历史"},
-    {icon: require('../resources/PaperCourseIconGeography_17x20_@2x.png'), text: "地理"},
-    {icon: require('../resources/PaperCourseIconPolitics_20x19_@2x.png'), text: "政治"},
+    {icon: require('../../resources/PaperCourseIconChinese_18x20_@2x.png'), text: "语文"},
+    {icon: require('../../resources/PaperCourseIconSMath_20x20_@2x.png'), text: "理数"},
+    {icon: require('../../resources/PaperCourseIconLMath_20x20_@2x.png'), text: "文数"},
+    {icon: require('../../resources/PaperCourseIconEnglish_16x17_@2x.png'), text: "英语"},
+    {icon: require('../../resources/PaperCourseIconSCombination_20x20_@2x.png'), text: "理综"},
+    {icon: require('../../resources/PaperCourseIconLCombination_20x20_@2x.png'), text: "文综"},
+    {icon: require('../../resources/PaperCourseIconPhysics_18x20_@2x.png'), text: "物理"},
+    {icon: require('../../resources/PaperCourseIconChemistry_14x20_@2x.png'), text: "化学"},
+    {icon: require('../../resources/PaperCourseIconBiology_20x20_@2x.png'), text: "生物"},
+    {icon: require('../../resources/PaperCourseIconHistory_19x20_@2x.png'), text: "历史"},
+    {icon: require('../../resources/PaperCourseIconGeography_17x20_@2x.png'), text: "地理"},
+    {icon: require('../../resources/PaperCourseIconPolitics_20x19_@2x.png'), text: "政治"},
   ]
 
 };
@@ -132,14 +132,10 @@ class PaperView extends Component {
 
   constructor(props, context){
     super(props, context);
-    var t = null;
-    Helper._getTheme(function(theme){
-      t = theme;
-    });
+
 
     this.state = {
-
-      currentTheme: t
+      currentTheme: ''
     };
 
   };
@@ -147,12 +143,19 @@ class PaperView extends Component {
 
   componentWillMount(){
     console.log("PaperView componentWillMount");
+    var thiz = this;
     sub = NativeAppEventEmitter.addListener(
       'CHANGE_THEME',
       (reminder) => {
-        this.setState({"currentTheme": reminder.currentTheme});
+        thiz.setState({"currentTheme": reminder.currentTheme});
       }
     );
+
+    Helper._getTheme(function(theme){
+      console.log("paper view "+ theme);
+        thiz.setState({"currentTheme": theme});
+    });
+
   };
 
   componentWillUnmount(){
@@ -161,6 +164,7 @@ class PaperView extends Component {
 
   render(){
     bgcolor = this.state.currentTheme === 'light' ? '#fff': '#1f282f';
+    console.log("reload bgcolor" + bgcolor);
     return(
       <ScrollView style={{backgroundColor: '#e8e8e8'}}>
       <View style={{ flexDirection: 'column', backgroundColor:bgcolor}}>

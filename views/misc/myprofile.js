@@ -1,12 +1,12 @@
 'use strict'
 import React, { Component } from 'react';
 import TableView from 'react-native-tableview';
-import Util from '../util/util';
-import Helper from '../util/helper';
+import Util from '../../util/util';
+import Helper from '../../util/helper';
 var Section = TableView.Section;
 var Item = TableView.Item;
 var Cell = TableView.Cell;
-import CommonCell from './commoncell';
+import CommonCell from '.././commoncell';
 
 import {
   StyleSheet,
@@ -18,24 +18,24 @@ import {
 
 const cellDatas = [
   [{
-      "icon": require('../resources/MiscDefaultAvatar_55x55_@2x.png'),
+      "icon": require('../../resources/MiscDefaultAvatar_55x55_@2x.png'),
       title: "jerry",
       isAvatarCell: true,
   }],
 
   [
     {
-        "icon": require('../resources/MiscDropDownErrorExerciseIcon_16x16_@2x.png'),
+        "icon": require('../../resources/MiscDropDownErrorExerciseIcon_16x16_@2x.png'),
         title: "错题、收藏、笔记",
         hasBottomLine: true
     },
     {
-        "icon": require('../resources/MiscMyHistoryExerciseIcon_16x16_@2x.png'),
+        "icon": require('../../resources/MiscMyHistoryExerciseIcon_16x16_@2x.png'),
         title: "练习历史",
         hasBottomLine: true
     },
     {
-        "icon": require('../resources/MiscExerciseStatisticsIcon_16x16_@2x.png'),
+        "icon": require('../../resources/MiscExerciseStatisticsIcon_16x16_@2x.png'),
         title: "做题统计",
         subMessage: "今天做题0道",
         hasBottomLine: false
@@ -45,25 +45,25 @@ const cellDatas = [
 
   [
     {
-      "icon": require('../resources/DiscoverySearchIcon_16x16_@2x.png'),
+      "icon": require('../../resources/DiscoverySearchIcon_16x16_@2x.png'),
       title: "我的消息",
       hasBadge: true,
       hasBottomLine: true
     },
     {
-        "icon": require('../resources/MiscPostCardIcon_16x16_@2x.png'),
+        "icon": require('../../resources/MiscPostCardIcon_16x16_@2x.png'),
         title: "我的卡卷",
         hasBottomLine: true,
     },
     {
-        "icon": require('../resources/MiscMyOrderIcon_13x16_@2x.png'),
+        "icon": require('../../resources/MiscMyOrderIcon_13x16_@2x.png'),
         title: "我的订单",
     }
   ],
 
   [
     {
-        "icon": require('../resources/MiscSettingIcon_16x16_@2x.png'),
+        "icon": require('../../resources/MiscSettingIcon_16x16_@2x.png'),
         title: "设置",
     },
   ],
