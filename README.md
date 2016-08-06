@@ -11,4 +11,8 @@ React-Native用来写布局比autolayout好多了。代码还很乱，记得重�
  
 
  
-![1](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p1.png)![2](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p2.png)![3](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p3.png)![4](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p4.png)
+![1](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p1.png)
+![2](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p2.png)
+![3](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p3.png)
+![4](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p4.png)
+![4](https://raw.githubusercontent.com/zewillze/YTK_R_Project/master/p5.png)
