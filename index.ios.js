@@ -173,7 +173,6 @@ var YTK_R_Project = React.createClass({
       </TabBarIOS>
     );
   }
-
 });
 
 AppRegistry.registerComponent('YTK_R_Project', () => YTK_R_Project);

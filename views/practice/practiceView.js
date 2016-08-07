@@ -199,6 +199,7 @@ class Practice extends Component {
         name={name}
         icon={icon}
         color={nightGrayColor}
+        navigator = {this.props.navigator}
       />
     );
   };

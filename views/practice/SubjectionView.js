@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react';
 import Util from '../../util/util';
-
+import SubPointsView from './subPointsView';
 import {
   StyleSheet,
   Text,
@@ -15,9 +15,13 @@ import {
 var SubjectionView = React.createClass({
   _subjectOnpress:function(tag){
     console.log("you click" + tag);
-
-
+    this.props.navigator.push({
+      component: SubPointsView,
+      title: this.props.name,
+      passProps: {"tag": this.props.tag}
+    })
   },
+
   render(){
     var width = Math.floor(Util.size.width/3);
     console.log("heie0");
