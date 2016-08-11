@@ -8,6 +8,7 @@
 2016/8/3 目前完成 4个大页面的一级页面， UI尚未细调， 增加一个Module用于发送Notification切换主题。。
 React-Native用来写布局比autolayout好多了。代码还很乱，记得重构
 回头学习ES6.
+2016/8/11 学习前端css, js中，前端技能树有店高。
 
  
 
