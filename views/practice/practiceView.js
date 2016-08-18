@@ -10,9 +10,14 @@ import {
   Text,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   NavigatorIOS,
+  Navigator,
   ScrollView,
   Image,
+  PushNotificationIOS,
+  NativeModules,
+  AsyncStorage,
   NativeAppEventEmitter
 } from 'react-native';
 
@@ -42,7 +47,7 @@ class MidPartView extends Component {
 
   _renderUnFinishMissView(){
     var themecolor = isNight ? styles.nightBorderLineColor: styles.lighBorderLineColor;
-    return (<View style={[styles.missionViewContainer, {flexDirection: 'column', justifyContent: 'center', alignItems:'center', margin: 25} ,themecolor]}>
+    return (<View style={[styles.missionViewContainer, styles.unfinishMission ,themecolor]}>
         <Image source={require('image!HomePracticeTaskHintNoTask_22x24_')}/>
         <Text style={[{fontSize: 11, marginTop: 5}, styles.lightGray]}>
           今日暂无任务，自己High~
@@ -118,8 +123,7 @@ class MissionView extends Component {
 };
 
 
-/* listener*/
-var sub = null;
+
 /*Main view*/
 class Practice extends Component {
 
@@ -131,37 +135,11 @@ class Practice extends Component {
     this.state = {
       width: Dimensions.get('window').width,
       datas: [],
-      currentTheme: ""
+
     };
 
-    var weakT = this;
-    Helper._getTheme(function(theme){
-      weakT.setState({"currentTheme": theme})
-    });
-  };
-
-  componentWillMount(){
-
-    var weakT = this;
-/* set change theme listener */
-
-    sub = NativeAppEventEmitter.addListener(
-      'CHANGE_THEME',
-      (reminder) => {
-        this.setState({"currentTheme": reminder.currentTheme});
-      }
-    );
-
-    /* fetch banner from server */
-    // this._fetchBanners();
-
 
   };
-
-  componentWillUnmount(){
-    sub.remove();
-  }
-
 
 
 /*fetch Banner pictures from server */
@@ -189,9 +167,9 @@ class Practice extends Component {
   _renderSubjectionIcon(idx){
     var obj = Util.subObj[idx];
     var name = obj.name;
-    console.log("t is " + this.state.currentTheme);
-    var icon = this.state.currentTheme === 'light' ? obj.lightIcon :obj.nightIcon;
-    var nightGrayColor = this.state.currentTheme === 'light' ? '#000': '#505a62';
+    console.log("t is " + this.props.currentTheme);
+    var icon = this.props.currentTheme === 'light' ? obj.lightIcon :obj.nightIcon;
+    var nightGrayColor = this.props.currentTheme === 'light' ? '#000': '#505a62';
     return (
       <SubjectionView
         key={idx}
@@ -206,7 +184,7 @@ class Practice extends Component {
 
   render(){
 
-    isNight = this.state.currentTheme === 'night'
+    isNight = this.props.currentTheme === 'night'
     var subs = [];
 
     for (var i = 0; i < Util.subObj.length; i++) {
@@ -244,7 +222,64 @@ class Practice extends Component {
   }
 };
 
+class PracticeNav extends Component{
 
+  constructor(props, context){
+    super(props, context);
+    this.state = {
+      currentTheme: ""
+    };
+    var weakT = this;
+    Helper._getTheme(function(theme){
+
+      weakT.setState({"currentTheme": theme})
+
+    });
+
+  };
+
+  _changeTheme(){
+
+    var theme = this.state.currentTheme === 'light'? 'night': 'light';
+
+    var NotificationManager = NativeModules.NotificationManager;
+    NotificationManager.postNotification("CHANGE_THEME", {"currentTheme": theme});
+    this.setState({
+      currentTheme: theme
+    });
+
+    Helper._setTheme(theme);
+  };
+
+
+  render(){
+    return(
+      <Navigator
+        initialRoute={{title: '', index: 0}}
+        renderScene={(route, navigator) =>
+          <Practice currentTheme={this.state.currentTheme} navigator={navigator}/>
+        }
+        navigationBar={
+          <Navigator.NavigationBar
+                        routeMapper={{
+                          LeftButton:(route, navigator, index, navState) => {
+                          },
+                          RightButton:(route, navigator, index, navState) => {
+                            return (<TouchableOpacity style={{padding: 8}} onPress={this._changeTheme.bind(this)}>
+                                  <Image source={require('image!SwitchNightMode_36x20_')}/>
+                              </TouchableOpacity>);
+                          },
+                          Title: (route, navigator, index, navState) =>
+                          {
+                            return (<Text style={{color:'#fff', padding: 12}}>离高考还有0天</Text>);
+                          },
+                        }}
+                        style={{backgroundColor: '#0085ff'}}
+                    />}
+        />
+    );
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -318,12 +353,16 @@ const styles = StyleSheet.create({
   missionLeftView: {
     flexDirection: 'column',
     flex: 3.5,
-
-    marginRight: 3,
+    marginRight: 3
+  },
+  unfinishMission:{
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems:'center',
+    margin: 25
   },
   missionInnerRow: {
-    flexDirection: 'row',
-
+     flexDirection: 'row',
      marginTop: 5
   },
   lightGray: {
@@ -371,4 +410,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = Practice;
+module.exports = PracticeNav;

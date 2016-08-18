@@ -14,12 +14,12 @@ class HeaderScoreView extends Component {
   render(){
     return(
       <View>
-        <View style={{marginTop:15, justifyContent: 'space-between', marginBottom: 15}}>
-          <Text style={{marginLeft: 10, fontSize: 12}}>
+        <View style={styles.contain}>
+          <Text style={styles.title}>
             预测分
           </Text>
 
-          <Text style={{color: 'blue', fontSize: 20}}>
+          <Text style={styles.score}>
             90
           </Text>
 
@@ -40,4 +40,19 @@ class SubPointsView extends Component {
   }
 };
 
+const styles = StyleSheet.create({
+  contain:{
+    marginTop:15,
+    justifyContent: 'space-between',
+    marginBottom: 15
+  },
+  title:{
+    marginLeft: 10,
+    fontSize: 12
+  },
+  score:{
+    color: 'blue',
+    fontSize: 20
+  },
+});
 module.exports = SubPointsView;

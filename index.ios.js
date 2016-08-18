@@ -13,11 +13,12 @@ import {
   TabBarIOS,
   NavigatorIOS,
   PushNotificationIOS,
+  NativeAppEventEmitter,
   NativeModules,
   AsyncStorage
 } from 'react-native';
 
-import Practice from './views/practice/practiceView';
+import PracticeNav from './views/practice/practiceView';
 import Discover from './views/discover/discover';
 import PaperView from './views/paper/paperView';
 import Myprofile from './views/misc/myprofile';
@@ -55,8 +56,8 @@ const TabbarIcons = {
   ],
 };
 
+var sub = null;
 var YTK_R_Project = React.createClass({
-
 
   getInitialState: function() {
 
@@ -67,12 +68,25 @@ var YTK_R_Project = React.createClass({
    },
 
    componentWillMount:function(){
+
+     sub = NativeAppEventEmitter.addListener(
+       'CHANGE_THEME',
+       (reminder) => {
+         this.setState({
+           selectedTheme: reminder.currentTheme
+         });
+       }
+     );
      var thiz = this;
      Helper._getTheme(function(value){
        thiz.setState({
          selectedTheme: value
        });
      });
+   },
+
+   componentWillUnmount:function(){
+     sub.remove();
    },
   _onPressTab: function(value){
 
@@ -81,24 +95,8 @@ var YTK_R_Project = React.createClass({
      });
    },
 
-   _changeTheme: function(){
-
-
-     var theme = this.state.selectedTheme === 'light'? 'night': 'light';
-     var NotificationManager = NativeModules.NotificationManager;
-     NotificationManager.postNotification("CHANGE_THEME", {"currentTheme": theme});
-     this.setState({
-       selectedTheme: theme
-     });
-
-     Helper._setTheme(theme);
-
-   },
-
-
   render() {
-    console.log("initialTheme :" + this.state.selectedTheme);
-    var rightItem = {itemIcon: require('image!SwitchNightMode_36x20_'),itemOnpress: this._changeTheme};
+
     var isNight = this.state.selectedTheme === 'night';
 
 
@@ -120,8 +118,7 @@ var YTK_R_Project = React.createClass({
             this.setState({selectedTab: 'practice'});
           }}
         >
-
-        {Helper._setNavigator(isNight, Practice, "离高考还有0天", null, rightItem, "i 'm pass data'")}
+          <PracticeNav/>
 
         </TabBarIOS.Item>
 
@@ -174,5 +171,6 @@ var YTK_R_Project = React.createClass({
     );
   }
 });
+
 
 AppRegistry.registerComponent('YTK_R_Project', () => YTK_R_Project);

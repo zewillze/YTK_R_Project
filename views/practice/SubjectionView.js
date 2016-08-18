@@ -27,7 +27,7 @@ var SubjectionView = React.createClass({
     console.log("heie0");
     return(
       <View
-        style={{  width: width, height: 70, marginTop: 15, marginBottom: 15}}
+        style={[styles.contain, {width: width}]}
         >
         <TouchableOpacity
           style={{alignItems:'center'}}
@@ -38,11 +38,23 @@ var SubjectionView = React.createClass({
 
         </TouchableOpacity>
 
-        <Text style={{textAlign:'center', paddingTop: 5, color: this.props.color}}>
+        <Text style={[styles.title, {color: this.props.color}]}>
             {this.props.name}
         </Text>
       </View>
     );
+  }
+});
+
+const styles = StyleSheet.create({
+  contain:{
+    height: 70,
+    marginTop: 15,
+    marginBottom: 15
+  },
+  title:{
+    textAlign:'center',
+    paddingTop: 5
   }
 });
 
